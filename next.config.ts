@@ -1,14 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+// next.config.ts
+import type { NextConfig } from "next";
 
-export async function POST(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
-  const { id } = await context.params; // ⚡ Next.js 15 requires await
-  const updated = await prisma.listing.update({
-    where: { id },
-    data: { status: "APPROVED" },
-  });
-  return NextResponse.json(updated);
-}
+const nextConfig: NextConfig = {
+  // keep empty/minimal for now
+};
+
+export default nextConfig;
