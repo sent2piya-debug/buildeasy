@@ -55,3 +55,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
 export default ListingCard;
 
 
+
+
+
+
