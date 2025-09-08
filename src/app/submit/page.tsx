@@ -12,7 +12,7 @@ export default function SubmitListingPage() {
     priceMax: "",
     province: "",
     district: "",
-    photosCsv: "https://placehold.co/800x600?text=Photo",
+    photosCsv: "https://placehold.co/800x600/jpg?text=Photo",
     description: "",
     ownerEmail: "seller@buildeasy.dev",
   });

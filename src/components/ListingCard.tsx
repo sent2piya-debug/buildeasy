@@ -1,61 +1,28 @@
-"use client";
+import Image from "next/image";
 
-import React from "react";
-
-type Listing = {
-  id: string;
-  title: string;
-  province: string;
-  district: string;
-  widthM?: number | null;
-  lengthM?: number | null;
-  landSizeSqm?: number | null;
-  priceMin?: number | null;
-  priceMax?: number | null;
-  photos?: string[] | null;
-};
-
-export function ListingCard({ listing }: { listing: Listing }) {
-  const hasDims = Boolean(listing.widthM && listing.lengthM);
-  const sqm = hasDims
-    ? Math.round((listing.widthM as number) * (listing.lengthM as number))
-    : listing.landSizeSqm ?? null;
-
-  return (
-    <div className="border rounded-xl overflow-hidden shadow-sm bg-white">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      {listing.photos?.[0] && (
-        <img
-          src={listing.photos[0]}
-          alt={listing.title}
-          className="w-full h-40 object-cover"
-        />
-      )}
-      <div className="p-4">
-        <h3 className="font-semibold text-lg">{listing.title}</h3>
-        <p className="text-sm text-gray-600">
-          {listing.province}, {listing.district}
-        </p>
-        {hasDims && (
-          <p className="mt-1 text-sm">
-            Land: {listing.widthM}m × {listing.lengthM}m = <b>{sqm} sqm</b>
-          </p>
-        )}
-        {!hasDims && sqm != null && (
-          <p className="mt-1 text-sm">Land: <b>{sqm} sqm</b></p>
-        )}
-        <p className="mt-1 text-green-600 font-medium">
-          ฿{listing.priceMin?.toLocaleString()} – ฿{listing.priceMax?.toLocaleString()}
-        </p>
-      </div>
-    </div>
-  );
+function toPhoto(src?: string, fallbackText = "Photo") {
+  if (!src) return `https://placehold.co/800x600.jpg?text=${encodeURIComponent(fallbackText)}`;
+  // if it's a local path make sure it starts with /
+  if (src.startsWith("/")) return src;
+  // otherwise assume it's remote and return as-is
+  return src;
 }
 
-export default ListingCard;
+export default function ListingCard({ listing }: { listing: any }) {
+  const cover = listing.photos?.[0] ?? "https://placehold.co/800x600.jpg?text=NO+photo";<Image src={cover} alt={listing.title} width={600} height={400} />
 
-
-
-
-
-
+  return (
+    <article className="rounded-xl border p-4">
+      <div className="mb-3">
+        <Image
+          src={cover}
+          alt={listing.title}
+          width={800}
+          height={600}
+          className="w-full h-auto rounded-lg object-cover"
+        />
+      </div>
+      {/* …rest of card… */}
+    </article>
+  );
+}

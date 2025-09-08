@@ -1,7 +1,12 @@
 {
   "scripts": {
+<<<<<<< HEAD
     "dev": "next dev",                
     "build": "next build",           
+=======
+    "dev": "next dev",
+    "build": "next build",
+>>>>>>> 6066651 (Sync local changes (image config, seed covers, admin route typing, images, etc.))
     "start": "next start",
     "prisma:studio": "prisma studio",
     "prisma:migrate": "prisma migrate dev",

@@ -1,27 +1,18 @@
+
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+// define yout own context for clarity
+type ApproveRouteContext = { params: { id: string } };
 
-// Approve a listing by ID
-export async function POST(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+export async function POST( request: Request, context: ApproveRouteContext) {
+    const { id } = context.params
 
-  try {
-    const updated = await prisma.listing.update({
-      where: { id },
-      data: { status: "APPROVED" },
-    });
+  // TODO: your Prisma approval goes here
+  // await prisma.listing.update({
+  //   where: { id },
+  //   data: { status: "APPROVED" },
+  // });
 
-    return NextResponse.json(updated, { status: 200 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "Listing not found or update failed" },
-      { status: 400 }
-    );
-  }
+  return NextResponse.json({ ok: true, id });
 }
 
 

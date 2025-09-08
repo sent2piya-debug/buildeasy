@@ -1,23 +1,30 @@
-// Simple buyer feed that shows APPROVED listings
 import ListingCard from "@/components/ListingCard";
 
-async function getListings() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"}/api/listings`, { cache: "no-store" });
-  return res.json();
-}
+export type Listing = {
+  id: string;
+  title: string;
+  type: "LAND" | "HOUSE" | "SERVICE";
+  priceMin: number;
+  priceMax: number;
+  province: string;
+  district: string;
+  landSizeSqm: number | null;
+  photos: string[];
+};
 
 export default async function ListingsPage() {
-  const listings = await getListings();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/listings`, {
+    cache: "no-store"
+  });
+  if (!res.ok) throw new Error("Failed to fetch listings");
+
+  const listings: Listing[] = await res.json();
+
   return (
-    <main className="max-w-6xl mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {listings.length === 0 && (
-        <p className="col-span-full text-center opacity-70">No approved listings yet.</p>
-      )}
-      {listings.map((l: any) => (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {listings.map((l) => (
         <ListingCard key={l.id} listing={l} />
       ))}
-    </main>
+    </div>
   );
 }
-
-
